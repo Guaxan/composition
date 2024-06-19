@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart TV</title>
+</head>
+
+<body>
+
+    <script>
+        class Display {
+            #tamanho;
+            #resolucao;
+
+            constructor(tamanho, resolucao) {
+                if (!tamanho || !resolucao) {
+                    throw new Error("Tamanho ou resolução do display ausente.");
+                }
+                this.#tamanho = tamanho;
+                this.#resolucao = resolucao;
+            }
+
+            teste() {
+                console.log(`Display - OK`);
+                return true;
+            }
+
+            detalhes() {
+                console.log(`Display: ${this.#tamanho}, Resolução: ${this.#resolucao}`);
+            }
+        }
+
+        class Som {
+            #sistema;
+
+            constructor(sistema) {
+                if (!sistema) {
+                    throw new Error("Sistema de som ausente.");
+                }
+                this.#sistema = sistema;
+            }
+
+            teste() {
+                console.log(`Sistema de som - OK`);
+                return true;
+            }
+
+            detalhes() {
+                console.log(`Sistema de som: ${this.#sistema}`);
+            }
+        }
+
+        class Rede {
+            #conectividade;
+
+            constructor(conectividade) {
+                if (!conectividade) {
+                    throw new Error("Conectividade ausente.");
+                }
+                this.#conectividade = conectividade;
+            }
+
+            teste() {
+                console.log(`Rede sem fio - OK`);
+                return true;
+            }
+
+            detalhes() {
+                console.log(`Conectividade: ${this.#conectividade}`);
+            }
+        }
+
+        class Software {
+            #sistemaOperacional;
+
+            constructor(sistemaOperacional) {
+                if (!sistemaOperacional) {
+                    throw new Error("Sistema operacional ausente.");
+                }
+                this.#sistemaOperacional = sistemaOperacional;
+            }
+
+            teste() {
+                console.log(`Sistema operacional - OK`);
+                return true;
+            }
+
+            detalhes() {
+                console.log(`Sistema Operacional: ${this.#sistemaOperacional}`);
+            }
+        }
+
+        class SmartTV {
+            constructor(tamanho, resolucao, sistemaSom, conectividade, sistemaOperacional) {
+                try {
+                    this.display = new Display(tamanho, resolucao);
+                    this.som = new Som(sistemaSom);
+                    this.rede = new Rede(conectividade);
+                    this.software = new Software(sistemaOperacional);
+                } catch (error) {
+                    console.error(`Erro ao inicializar Smart TV: ${error.message}`);
+                    this.initialized = false;
+                }
+                this.initialized = true;
+            }
+
+            ligar() {
+                if (!this.initialized) {
+                    console.error("Não é possível ligar a TV devido a erros na inicialização.");
+                    return;
+                }
+
+                try {
+                    console.log("Ligando a Smart TV...");
+                    const displayOk = this.display.teste();
+                    const somOk = this.som.teste();
+                    const redeOk = this.rede.teste();
+                    const softwareOk = this.software.teste();
+
+                    if (displayOk && somOk && redeOk && softwareOk) {
+                        console.log("Smart TV ligada com sucesso!");
+                        this.detalhesDisponiveis = true;
+                    } else {
+                        console.error("Erro ao ligar a Smart TV: Um ou mais componentes não estão funcionando.");
+                        this.detalhesDisponiveis = false;
+                    }
+                } catch (error) {
+                    console.error(`Erro ao ligar a Smart TV: ${error.message}`);
+                    this.detalhesDisponiveis = false;
+                }
+            }
+
+            exibirDetalhes() {
+                if (this.detalhesDisponiveis) {
+                    this.display.detalhes();
+                    this.som.detalhes();
+                    this.rede.detalhes();
+                    this.software.detalhes();
+                } else {
+                    console.error("Não é possível exibir os detalhes porque a TV não está funcionando corretamente.");
+                }
+            }
+        }
+
+        const minhaSmartTV = new SmartTV(55, "4K", "Dolby Atmos", false, "Android TV");
+        minhaSmartTV.ligar();
+        minhaSmartTV.exibirDetalhes();
+    </script>
+</body>
+
+</html>
